@@ -213,7 +213,10 @@ func (w *Watcher) AddPin(p uint) {
 // The pin provided should be the pin known by the kernel.
 func (w *Watcher) AddPinWithEdgeAndLogic(p uint, edge Edge, logicLevel LogicLevel) {
 	pin := NewInput(p)
-	setLogicLevel(pin, logicLevel)
+	err := setLogicLevel(pin, logicLevel)
+	if err != nil {
+		panic(err.Error())
+	}
 	setEdgeTrigger(pin, edge)
 	w.cmdChan <- watcherCmd{
 		pin:    pin,
